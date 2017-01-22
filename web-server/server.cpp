@@ -1,13 +1,13 @@
 // ============================
 // ======= Web Server ========
 // ============================
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-using namespace std;
-// Don't forget to include "Ws2_32.lib" in the library list.
 #include <winsock2.h>
 #include <string.h>
 #include <time.h>
+using namespace std;
 
 struct SocketState
 {
@@ -20,14 +20,33 @@ struct SocketState
 };
 
 const int TIME_PORT = 27015;
+const int HTTP_PORT = 80;
 const int MAX_SOCKETS = 60;
+
 const int EMPTY = 0;
 const int LISTEN = 1;
 const int RECEIVE = 2;
 const int IDLE = 3;
 const int SEND = 4;
+
+// == HTTP REQUESTS ==
+const int OPTIONS = 100;
+const int GET = 101;
+const int HEAD = 102;
+const int PUT = 103;
+const int DEL = 104;
+const int TRACE = 105;
+
+// TODO: are those needed?!
+const int BAD;	
+const int TIMEOUT;
+
+// == Y ommited in code ==
 const int SEND_TIME = 1;
 const int SEND_SECONDS = 2;
+
+
+// ===== FUNCTION DECLARATIONS =====
 
 bool addSocket(SOCKET id, int what);
 void removeSocket(int index);
@@ -35,8 +54,31 @@ void acceptConnection(int index);
 void receiveMessage(int index);
 void sendMessage(int index);
 
+// == Y added in code ==
+
+//bool createFileFromString(char fileName[], char fileContent[]);
+//void deleteFile(char fileName[]);
+//int copyFileSourceToString(char fileName[], char fileContent[]);
+//void CreateHeader(char fileName[], char fileContent[], int statusCode, char string[]);
+//void Body(char fileName[], char fileContent[]);
+//void setServerOn(bool val);
+
+// ===== GLOBALS =====
+
 struct SocketState sockets[MAX_SOCKETS] = { 0 };
 int socketsCount = 0;
+
+// == Y added in code ==
+
+//char fileName[100] = "example.html";
+//char no_name[1] = "";
+//char htmlFileContent[5000];
+//int status = 200;
+//char traceContent[1024];
+//char head[1024];
+//bool isServerOn = true;
+
+// ===== FUNCTION IMPLEMENTATION =====
 
 // TODO: there is work to be done
 void main()
