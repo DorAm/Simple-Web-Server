@@ -1,0 +1,7 @@
+*.sln
+*.sdf
+.vs/
+Debug/
+web-server/Debug
+web-server/*.vcxproj
+web-server/*.vcxproj.filters
