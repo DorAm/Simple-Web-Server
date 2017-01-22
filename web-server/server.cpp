@@ -38,7 +38,7 @@ void sendMessage(int index);
 struct SocketState sockets[MAX_SOCKETS] = { 0 };
 int socketsCount = 0;
 
-
+// TODO: there is work to be done
 void main()
 {
 	// Initialize Winsock (Windows Sockets).
@@ -207,6 +207,7 @@ void main()
 	WSACleanup();
 }
 
+// F
 bool addSocket(SOCKET id, int what)
 {
 	for (int i = 0; i < MAX_SOCKETS; i++)
@@ -224,6 +225,7 @@ bool addSocket(SOCKET id, int what)
 	return (false);
 }
 
+// F
 void removeSocket(int index)
 {
 	sockets[index].recv = EMPTY;
@@ -231,6 +233,7 @@ void removeSocket(int index)
 	socketsCount--;
 }
 
+// F
 void acceptConnection(int index)
 {
 	SOCKET id = sockets[index].id;
@@ -240,10 +243,10 @@ void acceptConnection(int index)
 	SOCKET msgSocket = accept(id, (struct sockaddr *)&from, &fromLen);
 	if (INVALID_SOCKET == msgSocket)
 	{
-		cout << "Time Server: Error at accept(): " << WSAGetLastError() << endl;
+		cout << "Web Server: Error at accept(): " << WSAGetLastError() << endl;
 		return;
 	}
-	cout << "Time Server: Client " << inet_ntoa(from.sin_addr) << ":" << ntohs(from.sin_port) << " is connected." << endl;
+	cout << "Web Server: Client " << inet_ntoa(from.sin_addr) << ":" << ntohs(from.sin_port) << " is connected." << endl;
 
 	//
 	// Set the socket to be in non-blocking mode.
@@ -251,7 +254,7 @@ void acceptConnection(int index)
 	unsigned long flag = 1;
 	if (ioctlsocket(msgSocket, FIONBIO, &flag) != 0)
 	{
-		cout << "Time Server: Error at ioctlsocket(): " << WSAGetLastError() << endl;
+		cout << "Web Server: Error at ioctlsocket(): " << WSAGetLastError() << endl;
 	}
 
 	if (addSocket(msgSocket, RECEIVE) == false)
@@ -262,6 +265,7 @@ void acceptConnection(int index)
 	return;
 }
 
+// TODO: there is work to be done
 void receiveMessage(int index)
 {
 	SOCKET msgSocket = sockets[index].id;
@@ -271,7 +275,7 @@ void receiveMessage(int index)
 
 	if (SOCKET_ERROR == bytesRecv)
 	{
-		cout << "Time Server: Error at recv(): " << WSAGetLastError() << endl;
+		cout << "Web Server: Error at recv(): " << WSAGetLastError() << endl;
 		closesocket(msgSocket);
 		removeSocket(index);
 		return;
@@ -285,7 +289,7 @@ void receiveMessage(int index)
 	else
 	{
 		sockets[index].buffer[len + bytesRecv] = '\0'; //add the null-terminating to make it a string
-		cout << "Time Server: Recieved: " << bytesRecv << " bytes of \"" << &sockets[index].buffer[len] << "\" message.\n";
+		cout << "Web Server: Recieved: " << bytesRecv << " bytes of \"" << &sockets[index].buffer[len] << "\" message.\n";
 
 		sockets[index].len += bytesRecv;
 
@@ -318,6 +322,7 @@ void receiveMessage(int index)
 
 }
 
+// TODO: there is work to be done
 void sendMessage(int index)
 {
 	int bytesSent = 0;
